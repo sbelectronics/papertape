@@ -36,6 +36,7 @@ PIN 21 = PUN4;        /* U18-12 */
 PIN 22 = PUN3;        /* U18-13 */
 PIN 23 = KBOUT;       /* GREEN */
 
+/* XXX change TAKEOUT to be direct drive rather than open collector */
 TAKEOUT = 'b'1;
 TAKEOUT.OE = TAKEIN;
 
