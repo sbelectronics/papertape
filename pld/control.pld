@@ -1,0 +1,72 @@
+/* NOTE: When programming using XGPRO/MINIPRO make sure
+ *       to specify ATF22V10C(UES). The "UES" is important.
+ */
+
+name control;
+device g22v10;
+partno x;
+date 1/1/1980;
+designer smbaker;
+company sbsoftware;
+revision 1;
+assembly x;
+location x;
+
+PIN 1 = EXECUTE;      /* GPIO-17 */
+PIN 2 = !KBPOLL;      /* PURPLE */
+PIN 3 = D0;           /* GPIO-4 */
+PIN 4 = D1;           /* GPIO-5 */
+PIN 5 = D2;           /* GPIO-6 */
+PIN 6 = D3;           /* GPIO-7 */
+PIN 7 = D4;           /* GPIO-8 */
+PIN 8 = D5;           /* GPIO-9 */
+PIN 9 = D6;           /* GPIO-10 */
+PIN 10 = D7;          /* GPIO-11 */
+PIN 11 = TAKEIN;      /* GPIO-27 */
+PIN 12 = GND;
+PIN 13 = !PUNENABLE;
+PIN 14 = TAKEOUT;
+PIN 15 = PUN8;
+PIN 16 = PUN7;
+PIN 17 = PUN1;        /* U18-8 */
+PIN 18 = PUN2;        /* U18-9 */
+PIN 19 = PUN5;        /* U18-10 */
+PIN 20 = PUN6;        /* U18-11 */
+PIN 21 = PUN4;        /* U18-12 */
+PIN 22 = PUN3;        /* U18-13 */
+PIN 23 = KBOUT;       /* GREEN */
+
+TAKEOUT = 'b'1;
+TAKEOUT.OE = TAKEIN;
+
+PUN1 = D0;
+PUN1.OE = TAKEIN;
+
+PUN2 = D1;
+PUN2.OE = TAKEIN;
+
+PUN3 = D2;
+PUN3.OE = TAKEIN;
+
+PUN4 = D3;
+PUN4.OE = TAKEIN;
+
+PUN5 = D4;
+PUN5.OE = TAKEIN;
+
+PUN6 = D5;
+PUN6.OE = TAKEIN;
+
+/* I'm assuming we don't need to drive DV1 and DV2.
+   As long as input C to the 7445 is high, it will
+   be in the range that enables the right outputs.
+*/
+
+/* we can always drive these two */
+
+PUN7 = D6 & PUNENABLE;
+
+PUN8 = D7 & PUNENABLE;
+
+KBOUT = 'b'0;
+KBOUT.OE = EXECUTE & KBPOLL;
