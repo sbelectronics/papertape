@@ -12,8 +12,8 @@ revision 1;
 assembly x;
 location x;
 
-PIN 1 = EXECUTE;      /* GPIO-17 */
-PIN 2 = !KBPOLL;      /* PURPLE */
+PIN 1 = EXECUTE;      /* GPIO-17, 1K-GND */
+PIN 2 = !KBPOLL;      /* GREEN, 2.2K-PULLUP-5V */
 PIN 3 = D0;           /* GPIO-4 */
 PIN 4 = D1;           /* GPIO-5 */
 PIN 5 = D2;           /* GPIO-6 */
@@ -22,7 +22,7 @@ PIN 7 = D4;           /* GPIO-8 */
 PIN 8 = D5;           /* GPIO-9 */
 PIN 9 = D6;           /* GPIO-10 */
 PIN 10 = D7;          /* GPIO-11 */
-PIN 11 = TAKEIN;      /* GPIO-27 */
+PIN 11 = TAKEIN;      /* GPIO-27, 1K-GND */
 PIN 12 = GND;
 PIN 13 = !PUNENABLE;
 PIN 14 = TAKEOUT;
@@ -34,7 +34,7 @@ PIN 19 = PUN5;        /* U18-10 */
 PIN 20 = PUN6;        /* U18-11 */
 PIN 21 = PUN4;        /* U18-12 */
 PIN 22 = PUN3;        /* U18-13 */
-PIN 23 = KBOUT;       /* GREEN */
+PIN 23 = KBOUT;       /* PURPLE */
 
 /* XXX change TAKEOUT to be direct drive rather than open collector */
 TAKEOUT = 'b'1;

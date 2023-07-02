@@ -14,8 +14,8 @@ PIN_TAKEOVER = 27
 
 PIN_DATA = [PIN_D0, PIN_D1, PIN_D2, PIN_D3, PIN_D4, PIN_D5, PIN_D6, PIN_D7]
 
-YES_EXECUTE = 0
-NO_EXECUTE = 1
+YES_EXECUTE = 1
+NO_EXECUTE = 0
 YES_TAKEOVER = 1
 NO_TAKEOVER = 0
 
@@ -24,15 +24,15 @@ class Punch:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(PIN_TAKEOVER, GPIO.OUT)
         GPIO.setup(PIN_EXECUTE, GPIO.OUT)
-        GPIO.output(PIN_TAKEOVER, 0)
-        GPIO.output(PIN_EXECUTE, 1)
+        GPIO.output(PIN_TAKEOVER, NO_TAKEOVER)
+        GPIO.output(PIN_EXECUTE, NO_EXECUTE)
 
         for pin in PIN_DATA:
             GPIO.setup(pin, GPIO.OUT)
 
     def execute(self):
         GPIO.output(PIN_EXECUTE, YES_EXECUTE)
-        time.sleep(0.2)
+        time.sleep(0.005)   # less than 0.005 will not sleep
         GPIO.output(PIN_EXECUTE, NO_EXECUTE)
 
     def write(self, v):
@@ -42,7 +42,7 @@ class Punch:
             v = v >> 1
         time.sleep(0.01)
         self.execute()
-        time.sleep(0.3)  # 3 character per second limit for now
+        time.sleep(0.1)  # 10 character per second limit for now
         GPIO.output(PIN_TAKEOVER, NO_TAKEOVER)
 
     def testbits(self):
@@ -56,6 +56,25 @@ class Punch:
         self.write(64)
         self.write(128)
 
+    def exercise(self):
+        self.write(0)
+        self.write(1)
+        self.write(2)
+        self.write(4)
+        self.write(8)
+        self.write(16)
+        self.write(32)
+        self.write(64)
+        self.write(128)
+        self.write(64)
+        self.write(32)
+        self.write(16)
+        self.write(8)
+        self.write(4)
+        self.write(2)
+        self.write(1)        
+
+
     def release(self):
         GPIO.output(PIN_EXECUTE, NO_EXECUTE)
         GPIO.output(PIN_TAKEOVER, NO_TAKEOVER)
@@ -65,7 +84,7 @@ def main():
     try:
         while True:
             #punch.write(0x01)
-            punch.testbits()
+            punch.exercise()
             time.sleep(5)
     finally:
         punch.release()
