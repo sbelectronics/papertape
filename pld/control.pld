@@ -36,6 +36,22 @@ PIN 21 = PUN4;        /* U18-12 */
 PIN 22 = PUN3;        /* U18-13 */
 PIN 23 = KBOUT;       /* PURPLE */
 
+/* Additional color codes in the prototype
+ *
+ * J1-7 PUN7 - Green
+ * J1-8 PUN8 - Blue
+ * 
+ * U2-10 PUNENABLE1 - Orange
+ * U2-11 PUNENABLE2 - Yellow
+ *
+ * EMITS - Red
+ * CR diodes - White (not used)
+ */
+
+/* All of these are shared with the typesetter and
+ * implemented as open-drain.
+ */
+
 PUN1 = D0;
 PUN1.OE = TAKEIN;
 
@@ -55,15 +71,28 @@ PUN6 = D5;
 PUN6.OE = TAKEIN;
 
 /* I'm assuming we don't need to drive DV1 and DV2.
-   As long as input C to the 7445 is high, it will
-   be in the range that enables the right outputs.
-*/
+ * As long as input C to the 7445 is high, it will
+ * be in the range that enables the right outputs.
+ */
 
-/* we can always drive these two */
+/* Since these two feed our own mosfets, we can direct
+ * drive them always 
+ * 
+ * Circult here is:
+ *
+ * Gate - 220ohm to GAL22V10, 10Kohm to ground
+ * Drain - to punch solenoid
+ * Source - to "emitters" pin
+ */
 
 PUN7 = D6 & PUNENABLE1 & PUNENABLE2 & TAKEIN;
 
 PUN8 = D7 & PUNENABLE1 & PUNENABLE2 & TAKEIN;
+
+/* Handle the keyboard here. When we see KBPOLL,
+ * we pull down KBOUT. KBOUT is implemented as
+ * open-collector.
+ */
 
 KBOUT = 'b'0;
 KBOUT.OE = EXECUTE & KBPOLL;
