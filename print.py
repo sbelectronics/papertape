@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import sys
 import time
+import fontc
 from optparse import OptionParser
 
 QUIET=0
@@ -75,6 +76,13 @@ class Punch:
         GPIO.output(PIN_D6, 0)
         GPIO.output(PIN_D7, 0)
 
+    def banner(self, s):
+        lines = ["", "", "", "", "", "", "", ""]
+        for c in s:
+            fc = fontc.font[ord(c)]
+            for i in range(0,8):
+                self.write(fc[i])
+
 def stoi(s):
     if s.startswith("0x") or s.startswith("0X"):
         value = int(s[2:], 16)
@@ -126,9 +134,12 @@ def main():
                 for arg in args:
                     punch.write(stoi(arg))
             elif (cmd=="string"):
-                s = " ".join(cmd)
+                s = " ".join(args)
                 for c in s:
                     punch.write(ord(c))
+            elif (cmd=="banner"):
+                s = " ".join(args)
+                punch.banner(s)
             count -= 1
 
             if options.delay>0:
