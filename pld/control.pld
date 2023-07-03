@@ -24,8 +24,8 @@ PIN 9 = D6;           /* GPIO-10 */
 PIN 10 = D7;          /* GPIO-11 */
 PIN 11 = TAKEIN;      /* GPIO-27, 1K-GND */
 PIN 12 = GND;
-PIN 13 = !PUNENABLE;
-PIN 14 = TAKEOUT;
+PIN 13 = PUNENABLE1;
+PIN 14 = PUNENABLE2;
 PIN 15 = PUN8;
 PIN 16 = PUN7;
 PIN 17 = PUN1;        /* U18-8 */
@@ -35,10 +35,6 @@ PIN 20 = PUN6;        /* U18-11 */
 PIN 21 = PUN4;        /* U18-12 */
 PIN 22 = PUN3;        /* U18-13 */
 PIN 23 = KBOUT;       /* PURPLE */
-
-/* XXX change TAKEOUT to be direct drive rather than open collector */
-TAKEOUT = 'b'1;
-TAKEOUT.OE = TAKEIN;
 
 PUN1 = D0;
 PUN1.OE = TAKEIN;
@@ -65,9 +61,9 @@ PUN6.OE = TAKEIN;
 
 /* we can always drive these two */
 
-PUN7 = D6 & PUNENABLE;
+PUN7 = D6 & PUNENABLE1 & PUNENABLE2 & TAKEIN;
 
-PUN8 = D7 & PUNENABLE;
+PUN8 = D7 & PUNENABLE1 & PUNENABLE2 & TAKEIN;
 
 KBOUT = 'b'0;
 KBOUT.OE = EXECUTE & KBPOLL;
