@@ -2,7 +2,13 @@ import RPi.GPIO as GPIO
 import sys
 import time
 import fontc
+import serial
 from optparse import OptionParser
+
+"""
+sudo apt-get install python3-pip
+sudo pip3 install pyserial
+"""
 
 QUIET=0
 NORMAL=1
@@ -77,11 +83,22 @@ class Punch:
         GPIO.output(PIN_D7, 0)
 
     def banner(self, s):
-        lines = ["", "", "", "", "", "", "", ""]
         for c in s:
             fc = fontc.font[ord(c)]
             for i in range(0,8):
                 self.write(fc[i])
+
+    def printFile(self, fn):
+        r = open(fn).read()
+        for c in r:
+            self.write(ord(c))
+
+    def serial(self, device, baud):
+        ser = serial.Serial(device, baudrate=baud,parity=serial.PARITY_NONE,stopbits=serial.STOPBITS_ONE)
+        while True:
+            bytes=ser.read()
+            for b in bytes:
+                self.write(b)
 
 def stoi(s):
     if s.startswith("0x") or s.startswith("0X"):
@@ -94,6 +111,9 @@ def stoi(s):
         value = int(s)
     return value
 
+
+
+
 def main():
     parser = OptionParser(usage="supervisor [options] command",
             description="Commands: ...")
@@ -104,6 +124,10 @@ def main():
          help="quiet", action="store_true", default=False)
     parser.add_option("-C", "--count", dest="count",
          help="repeat the specified number of times", metavar="amount", type="int", default=1)
+    parser.add_option("-b", "--baud", dest="baud",
+         help="baud rate for serial mode", metavar="rate", type="int", default=9600)
+    parser.add_option("-d", "--device", dest="device",
+         help="device for serial mode", metavar="amount", type="string", default="/dev/ttyS0")
     parser.add_option("-D", "--delay", dest="delay",
          help="delay between passes", metavar="milliseconds", type="int", default=0)
 
@@ -140,6 +164,11 @@ def main():
             elif (cmd=="banner"):
                 s = " ".join(args)
                 punch.banner(s)
+            elif (cmd=="file"):
+                for arg in args:
+                    punch.printFile(s)
+            elif (cmd=="serial"):
+                punch.serial(options.device, options.baud)
             count -= 1
 
             if options.delay>0:
