@@ -1,0 +1,99 @@
+R34
+L D10-9
+R R32B, R33T, B10-9
+
+R33
+T R34-L
+B GND
+
+R32
+T CNT2-B9, something to do with LED
+B R34-R
+
+E9 8031
+4,13 J7-4 
+9 RST -   R2-pullup, D10-10
+39 D0 - F7-2, F6-3, G10-18, D7-3
+
+D10 7402
+8 GND
+9 C8B-3, R34L, R35R-pullup, B10-14
+10 - E9-9  --> reset signal to CPU
+
+C8B 75463
+1 C8B-2,
+2 C8B-1, 
+3 - D10-9
+
+B10 17901
+8 - white-4, C23   (1.5V vref from PSU)
+9 - R32-B, R33-T, R34-R    (voltage divider 5V=1.563)
+14 - D10-9
+
+F7 244 - some output buffer
+1,19 OE GND
+2 1A0 E9-39(D0)
+18 1Y0
+
+F6 373 address latch
+2 1Q G9-10 (probably ROM-A0)
+3 1D E9-39(D0)
+11 LE D9-3
+
+G10 244 - likely ROM read buffer
+1,19 OE  G7-3
+2 1A0  G6-3, H6-3, H7-3, C4-3, C5-3
+17 2A0 G9-19 (probably ROM-D?)
+18 1Y0 E9-39(D0)
+
+D6 244
+1,19 J9-11
+18 1Y0 D7-17
+
+D7 244 - some input buffer
+1,19 OE D9-11
+3 2Y0 E9-39(D0)
+17 2A0 D6-18, D5-18, D4-18, C7-18, D8-18, 
+
+D9 08
+1 1A E9-30 ALE
+2 1B E9-29 PSEN
+3 1Y F6-11
+11 4Y D7-1,11
+12 4A E9-17  (CPU-RD)    (H)
+13 4B D9-4, D9-9, E10-2, E10-12, H10-10, H10-12, H4-4, H4-10, H4-13, R3-L-pullup, ???    (L)
+
+G7-3 00
+1 E10-11
+2 E10-3
+3 1Y D7-1,19 - ROM buffer read
+
+H4 75188
+
+H5 75189A
+
+H10 08
+10 H10-12,
+12 H10-12, 
+
+E10 00
+1 E9-29 (CPU_PSEN)
+2 D9-4, E10-12
+3 G7-3
+11 G7-3
+12 E10-2
+13 D9-6
+
+J10
+1 F6-2, J9-1
+2 F6-5, J9-2
+3 F6-6, J9-3
+
+J8
+1 PUNCH A15
+2 J8-3
+3 J8-2, bunch of 75463
+4 E9-4,13
+
+
+
